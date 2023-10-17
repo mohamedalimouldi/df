@@ -1,4 +1,5 @@
 node{
     stage('SCM Checkout'){
-        git 'https://github.com/KoukaAzza/DevOps-Spring'
+        git 'https://github.com/mohamedalimouldi/df'
     }
+}
