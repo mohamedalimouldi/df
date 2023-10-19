@@ -1,5 +1,10 @@
-node{
-    stage('SCM Checkout'){
-        git 'https://github.com/mohamedalimouldi/df'
+pipeline{
+    agent any
+    stages{
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/mohamedalimouldi/github-jenkins.git'
+            }
+        }
     }
 }
