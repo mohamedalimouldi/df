@@ -17,10 +17,8 @@ pipeline {
             steps {
                 script {
                     // Read the README.md file from the repository
-                    def readmeContent = readFile("${env.WORKSPACE}/README.md")
-                    
                     // Send an email notification
-                    emailext body: "Un nouveau commit a été effectué dans le référentiel.\n\nContenu du README.md:\n\n${readmeContent}",
+                    emailext body: "Un nouveau commit a été effectué dans le référentiel.\n\nContenu du README.md",
                         subject: 'Nouveau commit',
                         to: 'medalimouldi.1@gmail.com',
                         mimeType: 'text/plain'
