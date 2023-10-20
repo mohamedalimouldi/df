@@ -1,22 +1,17 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('Checkout') {
+    stages {
+        stage('Hello') {
             steps {
-                git branch: 'main', url: 'https://github.com/mohamedalimouldi/github-jenkins.git'
+                echo "Hello world"
+                    }
             }
         }
-        stage('Email Notification'){
-            steps{
-                script {
-                    def readmeContent = readFile('README.md')
-                }
-                emailext(
-                    subject: 'commit changes',
-                    body: "un nodsfdf",
-                    to: 'medalimouldi.1@gmail.com'
-                    )
-            }
+    post{
+        always{
+            mail to: "medalimouldi.1@gmail.com",
+            subject: "Test Email",
+            body: "Test"
         }
     }
 }
