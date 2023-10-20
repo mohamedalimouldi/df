@@ -4,19 +4,26 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    git branch: 'main', url: 'https://github.com/mohamedalimouldi/df.git'
+                    // Checkout the Git repository
+                    def gitRepo = checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'main']],
+                        userRemoteConfigs: [[url: 'https://github.com/mohamedalimouldi/df.git']]
+                    ])
                 }
             }
         }
         stage('Send Email') {
             steps {
                 script {
-                    def readmeContent = readFile('README.md')
-                    emailext(
+                    // Read the README.md file from the repository
+                    def readmeContent = readFile("${env.WORKSPACE}/README.md")
+                    
+                    // Send an email notification
+                    emailext body: "Un nouveau commit a été effectué dans le référentiel.\n\nContenu du README.md:\n\n${readmeContent}",
                         subject: 'Nouveau commit',
-                        body: "Un nouveau commit a été effectué dans le référentiel.\n\nContenu du README.md:\n\n${readmeContent}",
-                        to: 'medalimouldi.1@gmail.com'
-                    )
+                        to: 'medalimouldi.1@gmail.com',
+                        mimeType: 'text/plain'
                 }
             }
         }
