@@ -1,17 +1,24 @@
 pipeline {
     agent any
     stages {
-        stage('Hello') {
+        stage('Checkout') {
             steps {
-                echo "Hello world"
-                    }
+                script {
+                    git branch: 'main', url: 'https://github.com/mohamedalimouldi/df.git'
+                }
             }
         }
-    post{
-        always{
-            mail to: "medalimouldi.1@gmail.com",
-            subject: "Test Email",
-            body: "Test"
+        stage('Send Email') {
+            steps {
+                script {
+                    def readmeContent = readFile('README.md')
+                    emailext(
+                        subject: 'Nouveau commit',
+                        body: "Un nouveau commit a été effectué dans le référentiel.\n\nContenu du README.md:\n\n${readmeContent}",
+                        to: 'medalimouldi.1@gmail.com'
+                    )
+                }
+            }
         }
     }
 }
